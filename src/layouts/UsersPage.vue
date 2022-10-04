@@ -3,38 +3,64 @@
     <div class="col-10">
       <div class="row justify-end">
         <div class="col-3 q-pa-sm">
-          <ShowSelect />
+          <ShowSelect @onUpdateValue="test" />
         </div>
       </div>
       <div class="row items-start">
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
+        <UserCard
+          v-for="user in getUsers"
+          :key="user.id"
+          :user="user"
+        />
         <div class="col-12 q-pa-sm">
-          <q-btn outline color="primary" label="Show more" class="full-width"/>
+          <q-btn outline color="primary" label="Show more" class="full-width" />
         </div>
       </div>
-
-      <PaginationRow />
+      <PaginationRow :max-page="totalPages" @onUpdatePagination="test2" />
     </div>
   </div>
 </template>
-<script>
-import UserCard from "components/UserCard.vue";
+<script setup>
 import PaginationRow from "components/PaginationRow.vue";
 import ShowSelect from "components/ShowSelect.vue";
-export default {
-  name: "UsersPage",
-  components: { ShowSelect, PaginationRow, UserCard }
+import { useUserStore } from "stores/user";
+import { computed, onMounted, ref, watch } from "vue";
+import UserCard from "components/UserCard.vue";
 
-};
+const users = useUserStore();
+
+const getUsers = computed(() => {
+  return users.getUsers;
+});
+
+const totalPages = computed(() => {
+  return users.getTotalPages;
+});
+
+const page = ref(1);
+
+const perPage = ref(5);
+
+function test(e) {
+  perPage.value = e;
+}
+
+function test2(e) {
+  page.value = e;
+}
+
+function fetch() {
+  users.fetchUsers(page.value, perPage.value);
+}
+
+onMounted(() => {
+  fetch();
+});
+
+watch([page, perPage], () => {
+  fetch();
+});
+
 </script>
 
 <style scoped>

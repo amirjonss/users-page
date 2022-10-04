@@ -3,20 +3,16 @@
     v-model="model"
     :options="options"
     :label="`Показать по ${model} шт`"
-
+    @update:model-value="$emit('onUpdateValue', model)"
   />
 </template>
 
-<script>
-export default {
-  name: "ShowSelect",
-  data() {
-    return {
-      options: [2, 5, 10, 20],
-      model: 5
-    }
-  }
-};
+<script setup>
+import { ref } from "vue";
+
+const model = ref(5);
+const options = ref([2, 5, 10, 20]);
+
 </script>
 
 <style scoped>

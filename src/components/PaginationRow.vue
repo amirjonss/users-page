@@ -2,20 +2,31 @@
   <div class="q-pa-lg flex flex-center">
     <q-pagination
       v-model="current"
-      :max="5"
+      :max="maxPage"
+      @update:model-value="$emit('onUpdatePagination', current)"
     />
   </div>
 </template>
 
-<script>
-export default {
-  name: "PaginationRow",
-  data() {
-    return {
-      current: 3
-    }
+<script setup>
+import { computed, ref} from "vue";
+
+const current = ref(1);
+const maxPage = computed(() => {
+  return prop.maxPage;
+});
+
+const prop = defineProps({
+  maxPage: {
+    type: Number,
+    default: 1,
+    required: true
   }
-};
+});
+function log() {
+  console.log(123);
+}
+
 </script>
 
 <style scoped>
