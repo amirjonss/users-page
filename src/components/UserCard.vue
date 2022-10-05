@@ -3,7 +3,7 @@
     <q-card class="my-card">
       <img :src="user.avatar" :alt="user.first_name">
       <q-card-section>
-        <div class="text-h6">{{user.first_name + ' ' + user.last_name}}</div>
+        <div class="text-h6">{{ user.first_name + " " + user.last_name }}</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -23,7 +23,7 @@ defineProps({
     email: String,
     avatar: String
   }
-})
+});
 </script>
 
 <style scoped>

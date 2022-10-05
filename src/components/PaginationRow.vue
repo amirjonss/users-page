@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { computed, ref} from "vue";
+import { computed, ref } from "vue";
 
 const current = ref(1);
 const maxPage = computed(() => {
@@ -24,6 +24,7 @@ const prop = defineProps({
     required: true
   }
 });
+
 function log() {
   console.log(123);
 }

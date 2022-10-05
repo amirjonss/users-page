@@ -1,7 +1,10 @@
 <template>
   <div class="row justify-center q-mt-lg">
     <div class="col-10">
-      <div class="row justify-end">
+      <div class="row justify-between">
+        <div class="col-sm-3 col-xs-12 q-pa-sm">
+          <SearchInput @onUpdateSearchText="onUpdateSearchText" />
+        </div>
         <div class="col-sm-3 col-xs-12 q-pa-sm">
           <ShowSelect @onUpdateValue="onUpdateValue" />
         </div>
@@ -34,6 +37,7 @@ import { useUserStore } from "stores/user";
 import { computed, onMounted, ref, watch } from "vue";
 import UserCard from "components/UserCard.vue";
 import { useRouter } from "vue-router";
+import SearchInput from "components/SearchInput.vue";
 
 const router = useRouter();
 const users = useUserStore();
@@ -78,9 +82,23 @@ function showMore() {
     });
 }
 
+function onUpdateSearchText(e) {
+  if (e.length) {
+    let result = [];
+    usersList.value.filter((user) => {
+      if (user.first_name.toLowerCase().includes(e)) {
+        result.push(user);
+      }
+    });
+    usersList.value = result;
+  } else {
+    fetch();
+  }
+}
+
 onMounted(() => {
   fetch();
-  router.push('/')
+  router.push("/");
 });
 
 watch(perPage, () => {
