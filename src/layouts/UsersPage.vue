@@ -15,8 +15,12 @@
       </div>
       <div class="row justify-center">
         <div class="col-3 q-pa-sm text-center">
-          <q-btn outline color="grey-8" :label="'Показать еще ' + perPage" class="full-width" @click="showMore"
-                 v-if="totalPages !== page" />
+          <q-btn
+            outline color="grey-8"
+            :label="'Показать еще ' + perPage"
+            class="full-width" @click="showMore"
+            v-if="totalPages !== page"
+          />
         </div>
       </div>
       <PaginationRow :max-page="totalPages" @onUpdatePagination="onUpdatePagination" />
@@ -33,26 +37,27 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const users = useUserStore();
-
 const usersList = ref();
-
+const page = ref(1);
+const perPage = ref(5);
 const totalPages = computed(() => {
   return users.getTotalPages;
 });
 
-const page = ref(1);
-
-const perPage = ref(5);
-
 function onUpdateValue(e) {
   perPage.value = e;
+  let url = "/";
+  if (perPage.value !== 5) {
+    url = "/?page=" + page.value + "&per-page=" + perPage.value;
+  }
+  router.push(url);
 }
 
 function onUpdatePagination(e) {
   page.value = e;
   fetch();
   let url = "/";
-  if (page.value !== 1) {
+  if (page.value !== 1 || perPage.value !== 5) {
     url = "/?page=" + page.value + "&per-page=" + perPage.value;
   }
   router.push(url);
@@ -75,6 +80,7 @@ function showMore() {
 
 onMounted(() => {
   fetch();
+  router.push('/')
 });
 
 watch(perPage, () => {
@@ -83,6 +89,3 @@ watch(perPage, () => {
 
 </script>
 
-<style scoped>
-
-</style>
