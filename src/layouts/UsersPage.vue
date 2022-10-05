@@ -15,7 +15,8 @@
       </div>
       <div class="row justify-center">
         <div class="col-3 q-pa-sm text-center">
-          <q-btn outline color="grey-8" :label="'Показать еще ' + perPage" class="full-width" @click="showMore" v-if="totalPages !== page" />
+          <q-btn outline color="grey-8" :label="'Показать еще ' + perPage" class="full-width" @click="showMore"
+                 v-if="totalPages !== page" />
         </div>
       </div>
       <PaginationRow :max-page="totalPages" @onUpdatePagination="onUpdatePagination" />
@@ -28,7 +29,9 @@ import ShowSelect from "components/ShowSelect.vue";
 import { useUserStore } from "stores/user";
 import { computed, onMounted, ref, watch } from "vue";
 import UserCard from "components/UserCard.vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const users = useUserStore();
 
 const usersList = ref();
@@ -47,7 +50,12 @@ function onUpdateValue(e) {
 
 function onUpdatePagination(e) {
   page.value = e;
-  fetch()
+  fetch();
+  let url = "/";
+  if (page.value !== 1) {
+    url = "/?page=" + page.value + "&per-page=" + perPage.value;
+  }
+  router.push(url);
 }
 
 function fetch() {
@@ -61,7 +69,7 @@ function showMore() {
   page.value++;
   users.fetchUsers(page.value, perPage.value)
     .then(() => {
-      usersList.value.push(...users.getUsers)
+      usersList.value.push(...users.getUsers);
     });
 }
 
@@ -69,7 +77,7 @@ onMounted(() => {
   fetch();
 });
 
-watch([perPage], () => {
+watch(perPage, () => {
   fetch();
 });
 
