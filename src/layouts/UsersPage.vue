@@ -12,8 +12,10 @@
           :key="user.id"
           :user="user"
         />
-        <div class="col-12 q-pa-sm">
-          <q-btn outline color="primary" :label="'Показать еще ' + perPage" class="full-width" @click="showMore" v-if="totalPages !== page" />
+      </div>
+      <div class="row justify-center">
+        <div class="col-3 q-pa-sm text-center">
+          <q-btn outline color="grey-8" :label="'Показать еще ' + perPage" class="full-width" @click="showMore" v-if="totalPages !== page" />
         </div>
       </div>
       <PaginationRow :max-page="totalPages" @onUpdatePagination="onUpdatePagination" />

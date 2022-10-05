@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-lg flex flex-center">
     <q-pagination
+      color="grey-8"
       v-model="current"
       :max="maxPage"
       @update:model-value="$emit('onUpdatePagination', current)"
