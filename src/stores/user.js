@@ -13,7 +13,6 @@ export const useUserStore = defineStore("user", {
         axios
           .get(`https://reqres.in/api/users?page=${page}${getPerPage}`)
           .then((response) => {
-            console.log(response.data);
             this.users = response.data;
             resolve();
           })

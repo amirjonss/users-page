@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 q-pa-sm">
     <q-card class="my-card">
-      <img :src="user.avatar">
+      <img :src="user.avatar" :alt="user.first_name">
       <q-card-section>
         <div class="text-h6">{{user.first_name + ' ' + user.last_name}}</div>
       </q-card-section>
